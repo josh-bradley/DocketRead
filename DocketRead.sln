@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example1", "Example1\Example1.csproj", "{7718BAB0-B9A5-4546-89A9-7AA321DADBBF}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DocketRead", "DocketRead\DocketRead.fsproj", "{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7718BAB0-B9A5-4546-89A9-7AA321DADBBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7718BAB0-B9A5-4546-89A9-7AA321DADBBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7718BAB0-B9A5-4546-89A9-7AA321DADBBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7718BAB0-B9A5-4546-89A9-7AA321DADBBF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}.Release|Any CPU.ActiveCfg = Release|Any CPU

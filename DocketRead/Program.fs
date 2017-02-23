@@ -2,36 +2,28 @@
 
 open Google.Cloud.Vision.V1;
 open System;
-open System.Text.RegularExpressions
 open System.IO;
 open Types
 open AnnotationMath
+open TestData
 
-type TextLine = { orderedItems: string list } 
-
-let printPercentOut f desc h (targetY: float) anno =
-    let expectedY = f anno
-    let diff = Math.Abs(targetY - expectedY)
-    let percentOutOfLine = diff / h * 100.
-    if diff < 100. then
-        printfn "checking for %s it is %f out for line %s" desc percentOutOfLine anno.Description
-    ()
+//let printPercentOut f desc h (targetY: float) anno =
+//    let expectedY = f anno
+//    let diff = Math.Abs(targetY - expectedY)
+//    let percentOutOfLine = diff / h * 100.
+//    if diff < 100. then
+//        printfn "checking for %s it is %f out for line %s" desc percentOutOfLine anno.Description
+//    ()
 
 let getPercentOutOfLine (line : Annotation list) item = 
     if line.Length = 0 then
        5000.
     else 
-    //    let lineItemCenter = (float (getTopRightPoint lineItem).Y) + (float ((getBottomRightPoint lineItem).Y - (getTopRightPoint lineItem).Y) / 2.)
         let itemHeight = (float ((getBottomLeftPoint item).Y - (getTopLeftPoint item).Y))
-    //    let itemCenter = (float (getTopLeftPoint item).Y) + itemHeight / 2.
-    //
-    //    let diff = Math.Abs(Math.Abs(lineItemCenter) - Math.Abs(itemCenter))
-    //    let percentOutOfLine = Math.Min(diff, itemHeight) / itemHeight * 100.
-
         let (itemMidX, itemMidY) = getMidPoint (getTopLeftPoint item) (getBottomLeftPoint item)
         let getYForLineItemAndX = getYForLineItem itemMidX 
-        let t = printPercentOut getYForLineItemAndX item.Description itemHeight itemMidY
-        let o = line |> List.map t
+        //let t = printPercentOut getYForLineItemAndX item.Description itemHeight itemMidY
+        //let o = line |> List.map t
         let avgExpected = line |> List.averageBy getYForLineItemAndX
         let diff = Math.Abs(itemMidY - avgExpected)
         diff / itemHeight * 100.
@@ -42,56 +34,6 @@ let isInSameLine (line : Annotation list) item =
     //printfn "checking for %s it is %f out for line %s" item.Description percentOutOfLine (line |> List.fold (fun a b -> a + " " + b.Description) "")
     percentOutOfLine < 100.
 
-// let fitToLine item line = 
-//     match line with 
-//     | [] -> (false, line)
-//     | lastItem::tail -> 
-// //        let x1 = (nextLineItem |> getTopRightPoint).X
-// //        let x2 = (item |> getTopLeftPoint).X
-// //        match x1 > x2 with 
-// //        | true ->
-//             match isInSameLine line item with
-//             | true -> (true, item::line)
-//             | false -> (false, line)
-//        | false -> fitToLine item tail  
-
-// let rec processItem item lines = 
-//         match lines with 
-//         | [] -> [[item]]
-//         | nextLine::tail ->  
-//             match fitToLine item nextLine with 
-//             | (success, updatedLine) when success -> updatedLine::tail
-//             | _ -> nextLine::(processItem item tail)
-        
-// let rec processAnnotation document lines = 
-//         match document with 
-//         | [] -> lines
-//         | nextItem:: rest -> 
-//             printfn ""
-//             processItem nextItem lines 
-//             |> processAnnotation rest
-
-
-let printVerticies (a: EntityAnnotation) =
-    let v1 = a.BoundingPoly.Vertices.[0]
-    let v2 = a.BoundingPoly.Vertices.[1]
-    let v3 = a.BoundingPoly.Vertices.[2]
-    let v4 = a.BoundingPoly.Vertices.[3]
-    sprintf "[{X = %i; Y = %i};{X = %i; Y = %i};{X = %i; Y = %i};{X = %i; Y = %i}]" v1.X v1.Y v2.X v2.Y v3.X v3.Y v4.X v4.Y
-
-let (|ItemDesc|Price|) (str:string) =
-    let m = Regex.Match(str.Trim(), "^\d.*\.\d\d$");
-    if m.Success then Price else ItemDesc
-        
-let rec getItemDescriptionsAndPrices list = 
-        match list with
-        | [] -> ([], [])
-        | f::rest ->
-                let (descs, prices) = getItemDescriptionsAndPrices rest
-                match f with
-                | ItemDesc -> (f::descs, prices)
-                | Price -> (descs, f::prices)
-
 let rec matchAnnotationsToLine (lineText:string) annos =
         match annos with
         | [] -> ([], [])
@@ -101,11 +43,12 @@ let rec matchAnnotationsToLine (lineText:string) annos =
                       (next::ms, leftOver)
             | false -> ([], tail)
 
-let rec matchAnnotationsToLines lines annos =
+let rec matchAnnotationsToLines lines annos lastId =
         match lines with
             | [] -> []
             | next::tail -> let (matchingAnnos, annosLeft) = matchAnnotationsToLine next annos
-                            { Text = next; Annotations = matchingAnnos; Price = None}::matchAnnotationsToLines tail annosLeft
+                            let newId = lastId + 1
+                            { Id = newId; Text = next; Annotations = matchingAnnos; Price = None}::matchAnnotationsToLines tail annosLeft newId
 
 let rec seperatePricesAndDesc annos =
     match annos with
@@ -123,14 +66,32 @@ let rec matchPrices prices lines =
         | p::tail ->    let line = List.minBy (fun x -> getPercentOutOfLine x.Annotations p) lines                  
                         { line with Price = Some p }::matchPrices tail lines 
 
+let rec collapseDoubleLines lines = 
+        match lines with
+        | [] -> []
+        | f::tail -> 
+                match collapseDoubleLines tail with
+                | [] -> [f]
+                | p::pt ->
+                    match f.Price with
+                    | Some _ -> f::p::pt
+                    | None ->
+                        match p.Text with 
+                        | KiloMeasure | Quantity -> 
+                            let o = { p with Text = sprintf "%s %s" f.Text p.Text }
+                            o::pt 
+                        | _ -> f::p::pt
+
 [<EntryPoint>]
 let main argv = 
 //    let fileName = "docket3"
+//    
 //    let client = ImageAnnotatorClient.Create();
+//    
 //    let image = Image.FromFile(sprintf "%s.jpg" fileName);
 //    let response = client.DetectText(image);
 //
-//    let document = [for annotation in response do yield annotation]
+//    let compiledList::annos = [for anno in response do yield  { Description = anno.Description; Verticies = [for v in anno.BoundingPoly.Vertices do yield { X = v.X; Y = v.Y }]}]
 //    File.WriteAllLines(sprintf @"e:\%s.txt" fileName, [|for a in document do yield sprintf "{Description = \"%s\"; Verticies = %s};" a.Description (printVerticies a)|]);
 
     //let result = processAnnotation document []
@@ -138,16 +99,14 @@ let main argv =
     let compiledList::annos = getDocket3
 
     let list = [for a in compiledList.Description.Split('\n') do yield a];
-    let (descs, _) = getItemDescriptionsAndPrices list
+    let descs = List.filter (fun x -> match x with | ItemDesc -> true | _ -> false) list
     let (dannos, pannos) = seperatePricesAndDesc annos 
-    let lines = matchAnnotationsToLines descs dannos |> matchPrices pannos
+    let lines = matchAnnotationsToLines descs dannos 0
+    let linesWithPrice = matchPrices pannos lines
 
+    let ml = ((List.filter (fun x -> (List.forall (fun y -> x.Id <> y.Id) linesWithPrice)) lines) @ linesWithPrice) |> List.sortBy (fun x -> x.Id)
+    let cl = collapseDoubleLines ml
 
-    //let result = processAnnotation annos []
-    
-    
-        
-    for line in lines do printfn "%s %A" line.Text (if line.Price.IsSome then line.Price.Value.Description else "")   // for item in line do printfn "%s" (item.Description)
+    for line in cl do printfn "%s %s" line.Text (if line.Price.IsSome then line.Price.Value.Description else String.Empty)
     Console.Read()
     0 // return an integer exit code
-
