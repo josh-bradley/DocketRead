@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DocketRead", "DocketRead\DocketRead.fsproj", "{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DocketRead.Console", "DocketRead\DocketRead.Console.fsproj", "{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DocketRead.DocketReader", "DocketRead.DocketReader\DocketRead.DocketReader.fsproj", "{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C68A59F9-CAA6-45EE-BBFB-D15F960683DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
