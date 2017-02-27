@@ -12,9 +12,10 @@ let getFromGoogle fileName =
     processImage image
 
 [<EntryPoint>]
-let main argv = 
-    //let result = getFromGoogle "docket3"
-    let result = getDocket3
+let main argv =
+    let result = getFromGoogle "docket3"
+    //let result = getDocket3
+    
 
     match result with 
     | [] -> Console.WriteLine("No data found")
