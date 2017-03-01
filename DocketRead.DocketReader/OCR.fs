@@ -11,3 +11,7 @@ let processImage image =
 let getFromGoogle fileName =    
     let image = Image.FromFile(sprintf "%s" fileName);    
     processImage image
+
+let getFromBytes file = 
+    let image = Image.FromBytes(file)
+    processImage image

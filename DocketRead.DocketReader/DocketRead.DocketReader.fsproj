@@ -66,8 +66,9 @@
     <Compile Include="SaveData.fs" />
     <Compile Include="TestData.fs" />
     <Compile Include="AnnotationMath.fs" />
-    <Compile Include="ProcessDocket.fs" />
     <Compile Include="OCR.fs" />
+    <Compile Include="ProcessDocket.fs" />
+    <Compile Include="Vision.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
