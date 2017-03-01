@@ -7,8 +7,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DocketRead.Console", "Docke
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DocketRead.DocketReader", "DocketRead.DocketReader\DocketRead.DocketReader.fsproj", "{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{C9ABDCD7-8417-48A3-A7A7-4B3CB7C1120E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocketRead.Web", "DocketRead.Web\DocketRead.Web.csproj", "{D8CCF424-2DED-4EE3-BF2F-32E7D12911F4}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBCBB943-CE1B-47C6-B30E-2748A26E9F90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9ABDCD7-8417-48A3-A7A7-4B3CB7C1120E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9ABDCD7-8417-48A3-A7A7-4B3CB7C1120E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9ABDCD7-8417-48A3-A7A7-4B3CB7C1120E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9ABDCD7-8417-48A3-A7A7-4B3CB7C1120E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8CCF424-2DED-4EE3-BF2F-32E7D12911F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8CCF424-2DED-4EE3-BF2F-32E7D12911F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8CCF424-2DED-4EE3-BF2F-32E7D12911F4}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -60,7 +60,6 @@
     <Error Condition="!Exists('..\packages\Grpc.Core.1.0.1\build\net45\Grpc.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grpc.Core.1.0.1\build\net45\Grpc.Core.targets'))" />
   </Target>
   <ItemGroup>
-    <None Include="Script.fsx" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="SaveData.fs" />
